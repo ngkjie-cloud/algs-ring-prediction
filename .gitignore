@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments
+.venv/
+venv/
+venv-rings/
+
+# Jupyter
+.ipynb_checkpoints/
+EDA.ipynb
+
+# Secrets and local collection inputs
+.env
+tokens.json
+data/*.csv
+data/*.txt
+private/
+secrets/
+!data/README.md
+!data/apex_matches_schema.csv
+!data/sample_matches.csv
+notebooks/archive/
+
+# Generated artifacts
+models/
+*.joblib
+*.pkl
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

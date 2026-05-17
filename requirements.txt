@@ -1,0 +1,19 @@
+# notebooks
+jupyter
+ipykernel
+nbconvert
+nbformat
+
+# data manipulation and modeling
+numpy
+pandas
+scipy
+scikit-learn
+xgboost
+
+# visualization
+matplotlib
+seaborn
+
+# tests
+pytest

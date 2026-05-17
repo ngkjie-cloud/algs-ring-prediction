@@ -1,0 +1,10 @@
+[project]
+name = "algs-ring-prediction"
+version = "0.1.0"
+description = "Predicting Apex Legends ALGS ring-5 centers from early-game ring movement and map playability fields."
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
