@@ -29,7 +29,16 @@ This project explores whether machine learning can predict the center of Ring 5 
 
 The initial goal was to predict the exact Ring 5 center as accurately as possible. However, the results showed that the task is more difficult than a standard coordinate-regression problem. Several plausible Ring 5 locations can exist within the same Ring 3, so the problem appears to be partly multimodal. Because of this, the project explores direct coordinate regression, guide-inspired feature engineering, and a candidate-selection framing.
 
+## Key Takeaways
+
+- Built a custom spatial dataset of 865 Apex Legends matches by extracting, cleaning, and standardising match-level ring data.
+- Formulated final-ring prediction as a constrained spatial ML problem using only Rings 1–3.
+- Engineered Ring-3-relative coordinates, map-specific spatial priors, geometric containment constraints, and guide-inspired vector features.
+- Benchmarked simple heuristics, XGBoost regression, candidate ranking, and candidate classification.
+- Found that exact Ring 5 prediction from early rings is noisy and partly multimodal, but guide-inspired spatial features and self-researched features improved over all simple baselines.
+
 ## 2. Data
+The dataset was built from scratch by writing Python scripts to extract, parse, clean, and standardise match-level ring records. This makes the project an end-to-end data collection and modelling pipeline rather than an analysis of a pre-existing benchmark dataset.
 
 Each row represents one match. The dataset contains the full ring sequence from Ring 1 to Ring 5, including each ring's center coordinate, radius, shrink timing, and timestamp.
 
@@ -195,8 +204,6 @@ This avoids the discontinuity that occurs with circular variables, where two dir
 
 ### 5.2b Vector Features
 In addition to the baseline feature set, I tested a vector-based feature design inspired by human ring-prediction heuristics. Instead of representing movement only through raw distances, angles, or momentum terms, this approach generates explicit candidate pull directions from the early ring vectors. The vector-first feature set was inspired by a community guide on Apex endzone prediction, which describes using vector addition/subtraction, counterpulls, and map-specific endzone clustering as part of human ring prediction heuristics [1].
-
-### Vector-first feature set
 
 In addition to the baseline feature set, I tested a vector-first feature design inspired by human ring-prediction heuristics. Instead of representing movement only through raw distances, angles, or momentum terms, this approach generates explicit candidate pull directions from the early ring vectors.
 
@@ -386,7 +393,7 @@ The standard Joint XGBoost model reaches a mean clipped error of `619.263`, impr
 
 ## 8. Testing Pre-Existing Knowledge
 
-The final EDA section tested features inspired by ccamfpsApex's Ring Prediction Guide. I treat the guide as pre-existing player knowledge and translate its ideas into trainable features, rather than using it as a hard-coded answer key.
+This section tests features inspired by ccamfpsApex’s Ring Prediction Guide. I treat the guide as pre-existing player knowledge and translate its ideas into trainable features, rather than using it as a hard-coded answer key.
 
 The guide-inspired model uses only information available by Ring 3, plus the train-only map playability field. Its additional features include:
 
@@ -520,7 +527,7 @@ and their distributions:
 
 *Figure 8. Boxplot of Errors by Model.*
 
-The strongest current result is the guide-inspired vector XGBoost model. The most important project finding is not simply that XGBoost performs best, but that player-style ring knowledge can be converted into structured features and evaluated against simple baselines.
+The best model improves over the Ring 3 center baseline by 10.87%, but the mean normalized error remains 1.761. This means the prediction is still, on average, about 1.76 Ring 5 radii away from the true center. Therefore, the model is useful for narrowing down the general final-ring region, but it is not accurate enough to claim reliable exact Ring 5 prediction.
 
 
 
@@ -530,16 +537,17 @@ The dataset is limited to three maps and 865 cleaned matches. More maps, more sp
 
 The model also predicts only the Ring 5 center, not the full tactical value of a position. In real play, teams care about terrain, cover, rotations, enemy pressure, and playable buildings. The playability field partially captures historical final-ring tendencies, but it is still much simpler than real map geometry.
 
-Finally, the candidate oracle shows that the candidate set contains useful options, but the learned selectors are not yet strong enough to consistently choose them. That is a clear area for future work.
+Finally, the candidate oracle shows that the candidate set contains useful options, but the learned selectors are not yet strong enough to consistently choose them. That is a clear area for future work. 
 
 ## 13. Future Work
 
 Useful next steps include:
 
-- add more matches
-- expand the guide-inspired candidate set with more explicit pull/counterpull variants
-- add terrain and named-POI features
-- calibrate the candidate classifier
+- Add more matches
+- Expand the guide-inspired candidate set with more explicit pull/counterpull variants
+- Add terrain and named-POI features
+- Calibrate the candidate classifier
+- Evaluate probabilistic or top-k predictions instead of only exact coordinate error.
 
 ## References
 

@@ -1,5 +1,7 @@
 # ALGS Ring Prediction
 
+**Full report:** [PDF](reports/report.pdf) | [Markdown](reports/report.md)
+
 Predicting Apex Legends Global Series ring-5 center locations from early ring movement and historical map playability.
 
 ## Project Question
