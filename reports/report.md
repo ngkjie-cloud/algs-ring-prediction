@@ -188,7 +188,9 @@ r2_r3_dist_norm = ring2_ring3_dist / ring2_radius
 ```
 
 These variables describe how strongly and in what direction the zone has already pulled, while accounting for the scale of the ring at that stage.
+
 ### 5.2 Momentum / Vector Features
+
 ### 5.2a Momentum Features
 
 The EDA suggested that early ring movement has some relationship with the eventual Ring 5 displacement, although the signal is noisy. To capture this, I include a momentum feature based on the change in direction between consecutive ring pulls. First, the angle of each ring-to-ring movement is calculated using the displacement vector. Then the change in angle from Ring 1 to Ring 2 and Ring 2 to Ring 3 is wrapped onto the interval $[-\pi, \pi]$.
